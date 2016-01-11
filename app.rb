@@ -4,7 +4,7 @@ require 'sinatra/base'
 
 class Slack < Struct.new(:url)
   def notify
-    RestClient.post(slack_endpoint, {
+    RestClient.post(endpoint, {
       payload: JSON.generate(text: message)
     }, {
       content_type: :json,
@@ -23,18 +23,20 @@ class Slack < Struct.new(:url)
   end
 
   def message
-    "#{names.sample} please review this PR: #{url}"
+    "#{names.sample}, please review this PR: #{url}"
   end
 end
 
 class App < Sinatra::Base
   get '/' do
-    'Welcome to our app!'
+    status 200
   end
 
   post '/' do
-    if params[:action] == 'opened'
-      Slack.new(params[:pull_request][:url]).notify
+    pr = JSON.parse(request.body.read)
+
+    if pr['action'] == 'opened'
+      Slack.new(pr['pull_request']['url']).notify
     end
 
     status 200
