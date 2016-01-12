@@ -1,31 +1,6 @@
 require 'json'
-require 'rest-client'
 require 'sinatra/base'
-
-class Slack < Struct.new(:url)
-  def notify
-    RestClient.post(endpoint, {
-      payload: JSON.generate(text: message)
-    }, {
-      content_type: :json,
-      accept: :json
-    })
-  end
-
-  private
-
-  def endpoint
-    ENV['SLACK_ENDPOINT']
-  end
-
-  def names
-    ENV['SLACK_NAMES'].split(',')
-  end
-
-  def message
-    "#{names.sample}, please review this PR: #{url}"
-  end
-end
+require_relative 'slack_notifier'
 
 class App < Sinatra::Base
   get '/' do
@@ -33,10 +8,10 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    pr = JSON.parse(request.body.read)
+    event = JSON.parse(request.body.read)
 
-    if pr['action'] == 'opened'
-      Slack.new(pr['pull_request']['url']).notify
+    if event['action'] == 'opened'
+      SlackNotifier.new(event['pull_request']).notify
     end
 
     status 200
