@@ -1,6 +1,6 @@
 require 'json'
 require 'sinatra/base'
-require_relative 'slack_notifier'
+require 'slack_notifier'
 
 class App < Sinatra::Base
   get '/' do
