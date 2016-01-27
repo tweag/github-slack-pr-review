@@ -7,9 +7,28 @@ class SlackNotifier
 
   attr_reader :name, :pull_request
 
+  class << self
+    attr_accessor :index
+
+    def names
+      ENV['SLACK_NAMES'].split(',')
+    end
+
+    def next_name
+      names[increment! % names.length]
+    end
+
+    private
+
+    # Because who cares about thread-safety anyway...
+    def increment!
+      self.index = index ? index + 1 : 0
+    end
+  end
+
   def initialize(pull_request)
     @pull_request = pull_request
-    @name = ENV['SLACK_NAMES'].split(',').sample
+    @name = self.class.next_name
   end
 
   def notify

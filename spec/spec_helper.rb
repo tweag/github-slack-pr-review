@@ -4,6 +4,7 @@ Bundler.require :default, :test
 require 'minitest/spec'
 require 'minitest/pride'
 require 'minitest/autorun'
+require 'mocha/mini_test'
 
 ENV['SLACK_NAMES'] ||= '@ray,@ryan'
 
