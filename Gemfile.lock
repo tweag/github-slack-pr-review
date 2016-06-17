@@ -1,23 +1,21 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     json (1.8.3)
     metaclass (0.0.4)
-    mime-types (1.25.1)
     minitest (5.8.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
+    multi_xml (0.5.5)
     puma (2.15.3)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rdoc (4.2.1)
-      json (~> 1.4)
-    rest-client (1.6.8)
-      mime-types (~> 1.16)
-      rdoc (>= 2.4.2)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -28,12 +26,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  httparty
   minitest
   mocha
   puma
   rack-test
-  rest-client
   sinatra
 
 BUNDLED WITH
-   1.10.6
+   1.12.3

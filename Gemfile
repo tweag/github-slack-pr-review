@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
-gem 'rest-client'
+gem 'httparty'
 gem 'puma'
 
 group :test do
